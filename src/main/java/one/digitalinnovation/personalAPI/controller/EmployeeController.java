@@ -1,16 +1,26 @@
 package one.digitalinnovation.personalAPI.controller;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import one.digitalinnovation.personalAPI.DTO.MessageResponse;
+import one.digitalinnovation.personalAPI.entity.Employee;
+import one.digitalinnovation.personalAPI.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-    @GetMapping
-    public String getEmployee() {
-        return "Test API!";
+    private EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponse createEmployee(@RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
     }
 }

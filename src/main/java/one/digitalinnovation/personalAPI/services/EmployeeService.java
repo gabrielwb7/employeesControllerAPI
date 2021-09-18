@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
-    private EmployeeRepository employeeRepository;
-
     private final EmployeeMapper employeeMapper = EmployeeMapper.INSTANCE;
 
     @Autowired
@@ -31,7 +29,7 @@ public class EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employeeToSave);
 
-        MessageResponse messageResponse = MessageResponse.builder().message("Create employee with ID " + savedEmployee.getId()).build();
+        MessageResponse messageResponse = createMessageResponse(savedEmployee.getId(), "Create employee with id ");
 
         return messageResponse;
 
@@ -43,20 +41,37 @@ public class EmployeeService {
 
     }
 
-    private Employee isExist (Long id) throws EmployeeNotFoundExcepetion {
-        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundExcepetion(id));
-    }
-
-
     public EmployeeDTO catchEmployee(Long id) throws EmployeeNotFoundExcepetion {
 
         Employee employee = isExist(id);
         return employeeMapper.toDTO(employee);
     }
 
-
     public void delete(Long id) throws EmployeeNotFoundExcepetion {
-        Employee employee = isExist(id);
+        isExist(id);
         employeeRepository.deleteById(id);
     }
+
+    public MessageResponse updateEmployee(Long id, EmployeeDTO employeeDTO) throws EmployeeNotFoundExcepetion {
+        isExist(id);
+
+        Employee employeeUpdate = employeeMapper.toModel(employeeDTO);
+
+        Employee updateEmployee = employeeRepository.save(employeeUpdate);
+        
+        return createMessageResponse(updateEmployee.getId(), "Update employee by id ");
+
+    }
+
+    private EmployeeRepository employeeRepository;
+
+    private MessageResponse createMessageResponse (Long id, String textMessage) {
+        return MessageResponse.builder().message(textMessage + id).build();
+    }
+
+    private Employee isExist (Long id) throws EmployeeNotFoundExcepetion {
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundExcepetion(id));
+    }
+
+
 }

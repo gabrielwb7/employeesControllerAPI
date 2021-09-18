@@ -3,6 +3,7 @@ package one.digitalinnovation.personalAPI.services;
 import one.digitalinnovation.personalAPI.DTO.request.EmployeeDTO;
 import one.digitalinnovation.personalAPI.DTO.response.MessageResponse;
 import one.digitalinnovation.personalAPI.entity.Employee;
+import one.digitalinnovation.personalAPI.exceptions.EmployeeNotFoundExcepetion;
 import one.digitalinnovation.personalAPI.mapper.EmployeeMapper;
 import one.digitalinnovation.personalAPI.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,12 @@ public class EmployeeService {
         return allEmployee.stream().map(employeeMapper::toDTO).collect(Collectors.toList());
 
     }
+
+    public EmployeeDTO catchEmployee(Long id) throws EmployeeNotFoundExcepetion {
+
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundExcepetion(id));
+
+        return employeeMapper.toDTO(employee);
+    }
+
 }

@@ -2,6 +2,7 @@ package one.digitalinnovation.personalAPI.controller;
 
 import one.digitalinnovation.personalAPI.DTO.request.EmployeeDTO;
 import one.digitalinnovation.personalAPI.DTO.response.MessageResponse;
+import one.digitalinnovation.personalAPI.exceptions.EmployeeNotFoundExcepetion;
 import one.digitalinnovation.personalAPI.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,10 @@ public class EmployeeController {
     @GetMapping
     public List<EmployeeDTO> listAll() {
         return employeeService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public EmployeeDTO catchEmployee (@PathVariable Long id) throws EmployeeNotFoundExcepetion {
+        return employeeService.catchEmployee(id);
     }
 }

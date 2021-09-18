@@ -38,4 +38,10 @@ public class EmployeeController {
     public EmployeeDTO catchEmployee (@PathVariable Long id) throws EmployeeNotFoundExcepetion {
         return employeeService.catchEmployee(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployee(Long id) throws EmployeeNotFoundExcepetion {
+        employeeService.delete(id);
+    }
 }

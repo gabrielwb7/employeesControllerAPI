@@ -43,11 +43,20 @@ public class EmployeeService {
 
     }
 
+    private Employee isExist (Long id) throws EmployeeNotFoundExcepetion {
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundExcepetion(id));
+    }
+
+
     public EmployeeDTO catchEmployee(Long id) throws EmployeeNotFoundExcepetion {
 
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundExcepetion(id));
-
+        Employee employee = isExist(id);
         return employeeMapper.toDTO(employee);
     }
 
+
+    public void delete(Long id) throws EmployeeNotFoundExcepetion {
+        Employee employee = isExist(id);
+        employeeRepository.deleteById(id);
+    }
 }

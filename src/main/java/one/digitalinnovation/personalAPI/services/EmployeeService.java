@@ -1,28 +1,44 @@
 package one.digitalinnovation.personalAPI.services;
 
-import one.digitalinnovation.personalAPI.DTO.MessageResponse;
+import one.digitalinnovation.personalAPI.DTO.request.EmployeeDTO;
+import one.digitalinnovation.personalAPI.DTO.response.MessageResponse;
 import one.digitalinnovation.personalAPI.entity.Employee;
+import one.digitalinnovation.personalAPI.mapper.EmployeeMapper;
 import one.digitalinnovation.personalAPI.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
+    private final EmployeeMapper employeeMapper = EmployeeMapper.INSTANCE;
+
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
-    @PostMapping
-    public MessageResponse createEmployee(Employee employee) {
+    public MessageResponse createEmployee(EmployeeDTO employeeDTO) {
 
-        Employee savedEmployee = employeeRepository.save(employee);
-        return MessageResponse.builder().message("Create employee with ID " + savedEmployee.getId()).build();
+        Employee employeeToSave = employeeMapper.toModel(employeeDTO);
+
+        Employee savedEmployee = employeeRepository.save(employeeToSave);
+
+        MessageResponse messageResponse = MessageResponse.builder().message("Create employee with ID " + savedEmployee.getId()).build();
+
+        return messageResponse;
+
+    }
+
+    public List<EmployeeDTO> listAll() {
+        List<Employee> allEmployee = employeeRepository.findAll();
+        return allEmployee.stream().map(employeeMapper::toDTO).collect(Collectors.toList());
 
     }
 }

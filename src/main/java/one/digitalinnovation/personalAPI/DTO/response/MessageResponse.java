@@ -1,10 +1,10 @@
-package one.digitalinnovation.personalAPI.DTO;
+package one.digitalinnovation.personalAPI.DTO.response;
 
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 public class MessageResponse {
     private String message;
 }

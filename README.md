@@ -8,4 +8,13 @@ O projeto consiste em:
 
 ------
 
-**Status**: Em andamento.  
+**Ferramentas utilizadas:** 
+
+- Java 11
+- Apache Maven 3.8.2 
+- Intellj IDEA Community Edition 
+- Heroku 
+
+------
+
+**Status**: Finalizado.  

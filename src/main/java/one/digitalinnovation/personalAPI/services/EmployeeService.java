@@ -1,5 +1,6 @@
 package one.digitalinnovation.personalAPI.services;
 
+import lombok.AllArgsConstructor;
 import one.digitalinnovation.personalAPI.DTO.request.EmployeeDTO;
 import one.digitalinnovation.personalAPI.DTO.response.MessageResponse;
 import one.digitalinnovation.personalAPI.entity.Employee;
@@ -14,14 +15,10 @@ import java.util.stream.Collectors;
 
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeService {
 
     private final EmployeeMapper employeeMapper = EmployeeMapper.INSTANCE;
-
-    @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
 
     public MessageResponse createEmployee(EmployeeDTO employeeDTO) {
 
@@ -29,7 +26,7 @@ public class EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employeeToSave);
 
-        MessageResponse messageResponse = createMessageResponse(savedEmployee.getId(), "Create employee with id ");
+        MessageResponse messageResponse = createMessageResponse(savedEmployee.getId(), "Create employee with ID ");
 
         return messageResponse;
 

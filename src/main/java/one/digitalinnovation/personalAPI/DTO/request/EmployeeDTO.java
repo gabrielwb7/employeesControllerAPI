@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import one.digitalinnovation.personalAPI.entity.Phone;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -34,7 +33,7 @@ public class EmployeeDTO {
 
     @NotEmpty
     @Valid
-    private List<Phone> phones;
+    private List<PhoneDTO> phones;
 
 
 }

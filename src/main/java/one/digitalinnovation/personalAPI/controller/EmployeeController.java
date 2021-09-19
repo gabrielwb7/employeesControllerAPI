@@ -1,5 +1,6 @@
 package one.digitalinnovation.personalAPI.controller;
 
+import lombok.AllArgsConstructor;
 import one.digitalinnovation.personalAPI.DTO.request.EmployeeDTO;
 import one.digitalinnovation.personalAPI.DTO.response.MessageResponse;
 import one.digitalinnovation.personalAPI.exceptions.EmployeeNotFoundExcepetion;
@@ -13,15 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employee")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeController {
 
     private EmployeeService employeeService;
-
-    @Autowired
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
